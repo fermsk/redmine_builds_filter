@@ -1,0 +1,6 @@
+<h2><%= l(:label_build_edit) %></h2>
+
+<%= form_for [@project, @build] do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= submit_tag l(:button_save) %>
+<% end %>

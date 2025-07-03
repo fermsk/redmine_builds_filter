@@ -1,0 +1,47 @@
+<h2><%= l(:label_builds) %></h2>
+
+<% if User.current.allowed_to?(:create_builds, @project) %>
+  <%= link_to l(:label_build_new), new_project_build_path(@project), class: 'icon icon-add' %>
+<% end %>
+
+<% if @builds.any? %>
+  <table class="list builds">
+    <thead>
+      <tr>
+        <th><%= l(:field_name) %></th>
+        <th><%= l(:field_project) %></th>
+        <th><%= l(:field_created_on) %></th>
+        <th><%= l(:field_updated_on) %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @builds.each do |build| %>
+        <tr>
+          <td>
+            <% if User.current.allowed_to?(:edit_builds, @project) %>
+              <%= link_to build.name, edit_project_build_path(@project, build) %>
+            <% else %>
+              <%= build.name %>
+            <% end %>
+          </td>
+          <td><%= build.project.name %></td>
+          <td><%= format_time(build.created_at) %></td>
+          <td><%= format_time(build.updated_at) %></td>
+          <td class="buttons">
+            <% if User.current.allowed_to?(:delete_builds, @project) %>
+              <%= link_to l(:button_delete), 
+                  project_build_path(@project, build),
+                  method: :delete,
+                  data: { confirm: l(:text_are_you_sure) },
+                  class: 'icon icon-del' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <span class="pagination"><%= pagination_links_full @builds_pages, @builds_count %></span>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>

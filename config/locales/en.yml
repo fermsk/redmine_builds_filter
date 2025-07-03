@@ -1,0 +1,5 @@
+en:
+    field_build: "Build"
+    field_build_closed: "Closed in Build"
+    label_build_name_search: "Build number"
+    label_build_closed_name_search: "Closed in Build number"

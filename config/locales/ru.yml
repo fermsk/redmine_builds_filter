@@ -1,0 +1,23 @@
+---
+ru:
+  field_build: Сборка
+  field_build_closed: Закрыто в сборке
+  label_build_name_search: Номер сборки
+  label_build_closed_name_search: Номер сборки, в которой закрыто
+  permission_manage_builds: Управление сборками
+  project_module_builds: Сборки
+  label_builds: "Сборки"
+  #notice_successful_create: "Сборка успешно создана."
+  #notice_successful_update: "Сборка успешно обновлена."
+  #notice_successful_delete: "Сборка успешно удалена."
+  #field_name: "Сборка"
+  field_project: "Проект"
+  field_created_on: "Создано"
+  field_updated_on: "Обновлено"
+  label_build_new: "Создать сборку"
+  label_build_edit: "Редактировать сборку"
+  permission_view_builds: "Просмотр сборок"
+  permission_create_builds: "Создание сборок"
+  permission_edit_builds: "Редактирование сборок"
+  permission_delete_builds: "Удаление сборок"
+  permission_manage_builds: "Полное управление сборками"
