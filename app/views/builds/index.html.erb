@@ -17,23 +17,28 @@
     </thead>
     <tbody>
       <% @builds.each do |build| %>
-        <tr>
+        <tr class="<%= cycle('odd', 'even') %>">
           <td>
-            <% if User.current.allowed_to?(:edit_builds, @project) %>
-              <%= link_to build.name, edit_project_build_path(@project, build) %>
+            <% if User.current.allowed_to?(:edit_builds, build.project) %>
+              <%= link_to build.name, edit_project_build_path(build.project, build) %>
             <% else %>
               <%= build.name %>
             <% end %>
           </td>
-          <td><%= build.project.name %></td>
+          <td>
+            <%= link_to_project(build.project) %>
+            <% if build.project != @project %>
+              <span class="parent-project"></span>
+            <% end %>
+          </td>
           <td><%= format_time(build.created_at) %></td>
           <td><%= format_time(build.updated_at) %></td>
           <td class="buttons">
-            <% if User.current.allowed_to?(:delete_builds, @project) %>
+            <% if User.current.allowed_to?(:delete_builds, build.project) %>
               <%= link_to l(:button_delete), 
-                  project_build_path(@project, build),
-                  method: :delete,
-                  data: { confirm: l(:text_are_you_sure) },
+                  project_build_path(build.project, build), 
+                  method: :delete, 
+                  data: { confirm: l(:text_are_you_sure) }, 
                   class: 'icon icon-del' %>
             <% end %>
           </td>

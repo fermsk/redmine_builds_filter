@@ -18,15 +18,15 @@ module BuildsFilter
       
       if issue.build
         html << "<div class='attribute'>"
-        html << "<div class='label'>#{l(:field_build)}:</div>"
-        html << "<div class='value'>#{h(issue.build.name)}</div>"
+        html << "<div class='label'>#{l(:field_build)}: </div>"
+        html << "<div class='value'>#{h(issue.build.name_with_project)}</div>"
         html << "</div>"
       end
 
       if issue.build_closed
         html << "<div class='attribute'>"
-        html << "<div class='label'>#{l(:field_build_closed)}:</div>"
-        html << "<div class='value'>#{h(issue.build_closed.name)}</div>"
+        html << "<div class='label'>#{l(:field_build_closed)}: </div>"
+        html << "<div class='value'>#{h(issue.build_closed.name_with_project)}</div>"
         html << "</div>"
       end
 

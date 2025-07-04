@@ -1,26 +1,32 @@
 module BuildsFilter
   module IssueQueryPatch
     def self.prepended(base)
-      base.add_available_column(QueryColumn.new(:build, sortable: "#{Build.table_name}.name", groupable: true))
-      base.add_available_column(QueryColumn.new(:build_closed, sortable: "builds_closed.name", groupable: true))
+      base.add_available_column(QueryColumn.new(:build, 
+        sortable: "#{Build.table_name}.name", 
+        groupable: true, 
+        caption: :field_build))
+      base.add_available_column(QueryColumn.new(:build_closed, 
+        sortable: "builds_closed.name", 
+        groupable: true, 
+        caption: :field_build_closed))
     end
 
     def initialize_available_filters
       super
 
-      add_available_filter "build_id",
-        type: :list_optional,
-        values: lambda { project.builds.sorted.map { |b| [b.name, b.id.to_s] } }
-      add_available_filter "build_closed_id",
-        type: :list_optional,
-        values: lambda { project.builds.sorted.map { |b| [b.name, b.id.to_s] } }
+      add_available_filter "build_id", 
+        type: :list_optional, 
+        values: lambda { project.all_builds.sorted.map { |b| [b.name_with_project, b.id.to_s] } }
+      add_available_filter "build_closed_id", 
+        type: :list_optional, 
+        values: lambda { project.all_builds.sorted.map { |b| [b.name_with_project, b.id.to_s] } }
 
-      add_available_filter "build_name",
-        type: :string,
-        name: l(:label_build_name_search)
-      add_available_filter "build_closed_name",
-        type: :string,
-        name: l(:label_build_closed_name_search)
+      #add_available_filter "build_name", 
+      #  type: :string, 
+      #  name: l(:label_build_name_search)
+      #add_available_filter "build_closed_name", 
+      #  type: :string, 
+      #  name: l(:label_build_closed_name_search)
     end
 
     def sql_for_build_name_field(field, operator, value)

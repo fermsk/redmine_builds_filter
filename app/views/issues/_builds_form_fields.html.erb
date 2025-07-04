@@ -2,19 +2,19 @@
   <p>
     <%= form.label :build_id, l(:field_build) %>
     <%= form.select :build_id, 
-                    issue.project.builds.map {|b| [b.name, b.id]}, 
+                    issue.project.all_builds.map {|b| [b.name_with_project, b.id]}, 
                     { include_blank: true }, 
                     { class: 'builds-select', 
-                      disabled: !User.current.allowed_to?(:edit_builds, issue.project),
+                      disabled: !User.current.allowed_to?(:edit_builds, issue.project), 
                       data: { url: auto_complete_project_builds_path(issue.project) } } %>
   </p>
   <p>
     <%= form.label :build_closed_id, l(:field_build_closed) %>
     <%= form.select :build_closed_id, 
-                    issue.project.builds.map {|b| [b.name, b.id]}, 
+                    issue.project.all_builds.map {|b| [b.name_with_project, b.id]}, 
                     { include_blank: true }, 
                     { class: 'builds-select', 
-                      disabled: !User.current.allowed_to?(:edit_builds, issue.project),
+                      disabled: !User.current.allowed_to?(:edit_builds, issue.project), 
                       data: { url: auto_complete_project_builds_path(issue.project) } } %>
   </p>
 <% end %>

@@ -8,6 +8,10 @@ class Build < ActiveRecord::Base
   scope :sorted, -> { order(:name) }
 
   def to_s
-    name
+    "#{name} (#{project.name})"
+  end
+
+  def name_with_project
+    "#{name} (#{project.name})"
   end
 end
