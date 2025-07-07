@@ -1,0 +1,35 @@
+<%= form_tag(project_builds_path(@project), method: :get, id: 'query_form') do %>
+  <fieldset id="filters" class="collapsible">
+    <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+    <div>
+      <table>
+        <tr>
+          <td><%= label_tag :name, l(:field_name) %></td>
+          <td><%= text_field_tag :name, params[:name], size: 30 %></td>
+        </tr>
+        <tr>
+          <td><%= label_tag :only_project, l(:label_only_current_project) %></td>
+          <td><%= check_box_tag :only_project, '1', params[:only_project] == '1' %></td>
+        </tr>
+        <tr>
+          <td><%= label_tag :created_at, l(:field_created_on) %></td>
+          <td>
+            <%= date_field_tag :created_from, params[:created_from] %> -
+            <%= date_field_tag :created_to, params[:created_to] %>
+          </td>
+        </tr>
+        <tr>
+          <td><%= label_tag :updated_at, l(:field_updated_on) %></td>
+          <td>
+            <%= date_field_tag :updated_from, params[:updated_from] %> -
+            <%= date_field_tag :updated_to, params[:updated_to] %>
+          </td>
+        </tr>
+      </table>
+      <p>
+        <%= submit_tag l(:button_apply), name: nil, class: 'button-small' %>
+        <%= link_to l(:button_clear), project_builds_path(@project), class: 'icon icon-reload' %>
+      </p>
+    </div>
+  </fieldset>
+<% end %>

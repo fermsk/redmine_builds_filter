@@ -52,6 +52,14 @@ $(document).ready(function() {
       $('.select2-search__field').attr('placeholder', 'Search...');
     });
   });
+  $('#created_at_from, #created_at_to, #updated_at_from, #updated_at_to').each(function() {
+    $(this).datepicker({
+      dateFormat: 'yy-mm-dd',
+      showOn: 'button',
+      buttonImageOnly: true,
+      buttonImage: '/images/calendar.png'
+    });
+  });
 });
 
 function formatBuild(build) {

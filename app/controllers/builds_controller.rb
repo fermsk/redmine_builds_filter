@@ -6,24 +6,49 @@ class BuildsController < ApplicationController
   
   
   def index
-    @limit = per_page_option
-    @project_and_ancestors = @project.self_and_ancestors
-    @builds_scope = Build.where(project_id: @project_and_ancestors.map(&:id))
-    @builds_count = @builds_scope.count
-    @builds_pages = Paginator.new @builds_count, @limit, params['page']
-    @offset = @builds_pages.offset
-    @builds = @builds_scope
-      .includes(:project)
-      .sorted
-      .limit(@limit)
-      .offset(@offset)
-
-    respond_to do |format|
-      format.html
-      format.api
-      format.json { render json: @builds.map { |build| build_to_api_json(build) } }
-    end
+  @limit = per_page_option
+  
+  @builds_scope = if params[:only_project] == '1'
+    @project.builds
+  else
+    @project.all_builds
   end
+
+  if params[:name].present?
+    @builds_scope = @builds_scope.where("LOWER(#{Build.table_name}.name) LIKE LOWER(?)", "%#{params[:name]}%")
+  end
+
+  if params[:created_from].present?
+    @builds_scope = @builds_scope.where("#{Build.table_name}.created_at >= ?", params[:created_from].to_date.beginning_of_day)
+  end
+
+  if params[:created_to].present?
+    @builds_scope = @builds_scope.where("#{Build.table_name}.created_at <= ?", params[:created_to].to_date.end_of_day)
+  end
+
+  if params[:updated_from].present?
+    @builds_scope = @builds_scope.where("#{Build.table_name}.updated_at >= ?", params[:updated_from].to_date.beginning_of_day)
+  end
+
+  if params[:updated_to].present?
+    @builds_scope = @builds_scope.where("#{Build.table_name}.updated_at <= ?", params[:updated_to].to_date.end_of_day)
+  end
+
+  @builds_count = @builds_scope.count
+  @builds_pages = Paginator.new @builds_count, @limit, params['page']
+  @offset = @builds_pages.offset
+  @builds = @builds_scope
+    .includes(:project)
+    .sorted
+    .limit(@limit)
+    .offset(@offset)
+
+  respond_to do |format|
+    format.html
+    format.api
+    format.json { render json: @builds.map { |build| build_to_api_json(build) } }
+  end
+end
 
   def show
     respond_to do |format|
@@ -104,6 +129,18 @@ class BuildsController < ApplicationController
 
   private
 
+  def filters_params
+    {
+      name: params[:name],
+      only_project: params[:only_project],
+      created_at_from: params[:created_at_from],
+      created_at_to: params[:created_at_to],
+      updated_at_from: params[:updated_at_from],
+      updated_at_to: params[:updated_at_to]
+    }.delete_if { |k, v| v.blank? }
+    
+  end
+  
   def find_build
     @build = @project.builds.find(params[:id])
   rescue ActiveRecord::RecordNotFound

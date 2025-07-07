@@ -21,3 +21,6 @@ ru:
   permission_edit_builds: "Редактирование сборок"
   permission_delete_builds: "Удаление сборок"
   permission_manage_builds: "Полное управление сборками"
+  label_filter_plural: Фильтры
+  label_only_current_project: Только текущий проект
+  button_apply: Применить
