@@ -4,8 +4,6 @@ translations = {
   'ru' => {
     'field_build' => "Сборка",
     'field_build_closed' => "Закрыто в сборке",
-    'label_build_name_search' => "Номер сборки",
-    'label_build_closed_name_search' => "Номер сборки, в которой закрыто",
     'permission_manage_builds' => "Управление сборками",
     'project_module_builds' => "Сборки"
   }

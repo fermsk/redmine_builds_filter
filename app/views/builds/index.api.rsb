@@ -1,0 +1,11 @@
+api.array :builds, api_meta(total_count: @builds_count) do
+  @builds.each do |build|
+    api.build do
+      api.id         build.id
+      api.name       build.name
+      api.created_at build.created_at
+      api.updated_at build.updated_at
+      api.project(id: build.project.id, name: build.project.name)
+    end
+  end
+end

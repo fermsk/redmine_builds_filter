@@ -5,8 +5,8 @@ Redmine::Plugin.register :builds_filter do
   author 'Ivan Zheleznyi'
   description 'This plugin adds build and build_closed filters to issues and a Builds menu item'
   version '0.0.3'
-  url 'http://example.com/path/to/plugin'
-  author_url 'http://example.com/about'
+  url 'http://gitlab.aladdin.ru/devops/infrastructure/redmine/builds_filter.git'
+  author_url 'https://aladdin-rd.ru'
 
   requires_redmine version_or_higher: '4.0'
 
@@ -15,6 +15,7 @@ Redmine::Plugin.register :builds_filter do
     permission :create_builds, { builds: [:new, :create] }
     permission :edit_builds, { builds: [:edit, :update] }
     permission :delete_builds, { builds: [:destroy] }
+    permission :manage_builds_api, { builds: [:index, :show, :create, :update, :destroy] }
   end
 
   menu :project_menu, :builds,
@@ -28,7 +29,8 @@ Rails.application.config.to_prepare do
   require_dependency 'issue'
   require_dependency 'issue_query'
   require_dependency 'project'
-
+  require_dependency 'build'
+  
   path = File.expand_path('../lib/builds_filter', __FILE__)
 
   require_dependency "#{path}/issue_patch"
