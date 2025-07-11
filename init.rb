@@ -4,7 +4,7 @@ Redmine::Plugin.register :builds_filter do
   name 'Builds Filter plugin'
   author 'Ivan Zheleznyi'
   description 'This plugin adds build and build_closed filters to issues and a Builds menu item'
-  version '0.0.3'
+  version '0.0.4-1'
   url 'http://gitlab.aladdin.ru/devops/infrastructure/redmine/builds_filter.git'
   author_url 'https://aladdin-rd.ru'
 

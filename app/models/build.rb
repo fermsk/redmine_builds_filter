@@ -6,11 +6,11 @@ class Build < ActiveRecord::Base
   has_many :closed_issues, class_name: 'Issue', foreign_key: 'build_closed_id'
 
   validates :name, presence: true, uniqueness: { scope: :project_id }
+  validates :project, presence: true
 
-  scope :sorted, -> { order(:name) }
+  scope :sorted, -> { order(created_at: :desc) }
 
-  safe_attributes 'name', 'project_id',
-    if: lambda {|build, user| user.allowed_to?(:edit_builds, build.project) }
+  safe_attributes 'name', 'project_id'
 
   def to_s
     "#{name} (#{project.name})"

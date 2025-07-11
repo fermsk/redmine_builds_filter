@@ -4,15 +4,18 @@ module BuildsFilter
       issue = context[:issue]
       form = context[:form]
       
-      context[:controller].send(:render_to_string, {
-        partial: 'issues/builds_form_fields', 
-        locals: { issue: issue, form: form }
-      })
+      
+      if issue.project && User.current.allowed_to?(:view_issues, issue.project)
+        context[:controller].send(:render_to_string, {
+          partial: 'issues/builds_form_fields', 
+          locals: { issue: issue, form: form }
+        })
+      end
     end
 
     def view_issues_show_details_bottom(context = {})
       issue = context[:issue]
-      return unless issue.project && User.current.allowed_to?(:view_builds, issue.project)
+      return unless issue.project && User.current.allowed_to?(:view_issues, issue.project)
 
       html = ''
       

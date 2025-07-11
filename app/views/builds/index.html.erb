@@ -30,7 +30,7 @@
           <td>
             <%= link_to_project(build.project) %>
             <% if build.project != @project %>
-              <span class="parent-project">(parent)</span>
+              <span class="parent-project"></span>
             <% end %>
           </td>
           <td><%= format_time(build.created_at) %></td>
@@ -48,7 +48,12 @@
       <% end %>
     </tbody>
   </table>
-  <span class="pagination"><%= pagination_links_full @builds_pages, @builds_count %></span>
+  
+  <% if @builds_pages && @builds_pages.item_count > 0 %>
+    <span class="pagination">
+      <%= pagination_links_full @builds_pages, @builds_count %>
+    </span>
+  <% end %>
 <% else %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>

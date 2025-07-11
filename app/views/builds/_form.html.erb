@@ -1,5 +1,17 @@
 <%= error_messages_for 'build' %>
 
 <div class="box tabular">
-  <p><%= f.text_field :name, required: true %></p>
+  <p>
+    <%= f.label :name, l(:field_name), required: true %>
+    <%= f.text_field :name, required: true, size: 60 %>
+  </p>
+  <% unless @project %>
+    <p>
+      <%= f.label :project_id, l(:field_project) %>
+      <%= f.select :project_id, 
+                   Project.all.map {|p| [p.name, p.id]}, 
+                   { include_blank: true }, 
+                   { required: true } %>
+    </p>
+  <% end %>
 </div>
